@@ -1,0 +1,31 @@
+# ---- secrets: never commit a filled-in environment config ----
+appsettings.Production.json
+appsettings.Development.json
+appsettings.*.json
+!appsettings.*.example.json
+*.pfx
+*.secret
+.env
+
+# ---- the two deployed/published folders that live beside this repo on the dev box ----
+MailGateway_Customer/
+MailGateway_Provider/
+publish/
+Logs/
+logs/
+*.log
+
+# ---- .NET build output ----
+bin/
+obj/
+*.user
+*.suo
+*.swp
+.vs/
+.vscode/
+*.DotSettings.user
+TestResults/
+
+# ---- OS noise ----
+Thumbs.db
+.DS_Store

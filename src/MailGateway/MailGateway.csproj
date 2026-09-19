@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>MailGateway</RootNamespace>
+    <AssemblyName>MailGateway</AssemblyName>
+    <Version>2.0.0</Version>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <ServerGarbageCollection>true</ServerGarbageCollection>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <!-- No NuGet packages on purpose: everything used ships in the .NET 8 / ASP.NET Core shared framework. -->
+
+  <ItemGroup>
+    <!-- Environment-specific config files are NOT shipped; each deployment keeps its own appsettings.Production.json. -->
+    <Content Update="appsettings.*.json" CopyToPublishDirectory="Never" />
+    <Content Update="appsettings.json" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

@@ -1,7 +1,6 @@
 # MailGateway
 
-Small HTTP → Microsoft Graph mail relay (.NET 8 minimal API, no NuGet dependencies beyond
-Windows-service hosting). One binary, many deployments: WordPress, the legacy admin site,
+Small HTTP → Microsoft Graph mail relay (.NET 8 minimal API, zero NuGet dependencies). One binary, many deployments: WordPress, the legacy admin site,
 PediaSphere (PAS / SPR), piruli, liceojavier … anything that can POST JSON.
 
 ```
@@ -116,7 +115,7 @@ blank template and is the only settings file that gets published.
 | `MailLimits:InlineSendThresholdBytes` | estimated request size (base64 + body) above which the draft + upload-session flow is used (Graph's /sendMail limit ≈ 4 MB) |
 | `MailLimits:UploadChunkBytes` | multiple of 327,680, ≤ 4 MiB |
 | `Logging:Folder` | daily log files |
-| `Urls` | listen address when running as a Windows service (omit under IIS) |
+| `Urls` | listen address when running as a service/console (omit under IIS) |
 
 ## Build, run, deploy
 
@@ -136,12 +135,9 @@ Then stop the service, copy the contents of `publish\` over `C:\Services\MailGat
 `C:\Services\MailGateway_AI`), make sure `appsettings.Production.json` is still there, start the service.
 Check `GET /health` — `configErrors` must be empty, and the response shows the version.
 
-First-time service install (if the old one was created by hand, just replace the files):
-
-```powershell
-sc.exe create MailGateway binPath= "C:\Services\MailGateway\MailGateway.exe" start= auto
-sc.exe start MailGateway
-```
+The app is a plain console process, so it runs as a service the same way the old one does (NSSM,
+a scheduled task, or whatever wrapper is already in place) — just replace the files. For a brand-new
+box, NSSM is the simplest: `nssm install MailGateway C:\Services\MailGateway\MailGateway.exe`.
 
 If the public URL goes through IIS + ARR (current setup), copy `deploy/iis-site/web.config` into the
 site folder — it raises IIS's 30 MB request limit so large base64 bodies are not cut off. The Classic ASP

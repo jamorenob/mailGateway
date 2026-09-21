@@ -54,7 +54,8 @@ Function MG_BytesToBase64(bytes)
     Set node = xml.createElement("b64")
     node.dataType = "bin.base64"
     node.nodeTypedValue = bytes
-    MG_BytesToBase64 = node.text            ' MSXML inserts line breaks; the gateway strips them
+    ' MSXML wraps base64 at 76 chars; raw line breaks are illegal inside a JSON string, so strip them here
+    MG_BytesToBase64 = Replace(Replace(node.text, vbCr, ""), vbLf, "")
     Set node = Nothing
     Set xml = Nothing
 End Function

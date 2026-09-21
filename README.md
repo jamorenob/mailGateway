@@ -47,7 +47,7 @@ Each element is either a **string** (a file path on the gateway server, original
 ```json
 {
   "name": "Receipt-12345.pdf",
-  "contentBase64": "JVBERi0xLjcK...",        // the file bytes; data:...;base64, prefix and line breaks tolerated
+  "contentBase64": "JVBERi0xLjcK...",        // the file bytes on one line (a data:...;base64, prefix is tolerated)
   "contentType": "application/pdf",          // optional, guessed from the extension
   "contentId": "logo",                       // optional: inline image referenced as <img src="cid:logo">
   "isInline": true                           // optional, default false
@@ -131,13 +131,13 @@ dotnet run
 dotnet publish -c Release -o C:\Dev\MailGateway\publish
 ```
 
-Then stop the service, copy the contents of `publish\` over `C:\Services\MailGateway` (or
-`C:\Services\MailGateway_AI`), make sure `appsettings.Production.json` is still there, start the service.
+Then stop the service, copy the contents of `publish\` over `C:\Apps\MailGateway` (or
+`C:\Apps\MailGateway_AI`), make sure `appsettings.Production.json` is still there, start the service.
 Check `GET /health` — `configErrors` must be empty, and the response shows the version.
 
 The app is a plain console process, so it runs as a service the same way the old one does (NSSM,
 a scheduled task, or whatever wrapper is already in place) — just replace the files. For a brand-new
-box, NSSM is the simplest: `nssm install MailGateway C:\Services\MailGateway\MailGateway.exe`.
+box, NSSM is the simplest: `nssm install MailGateway C:\Apps\MailGateway\MailGateway.exe`.
 
 If the public URL goes through IIS + ARR (current setup), copy `deploy/iis-site/web.config` into the
 site folder — it raises IIS's 30 MB request limit so large base64 bodies are not cut off. The Classic ASP

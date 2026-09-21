@@ -175,7 +175,8 @@ app.MapPost("/api/mail/send", async (HttpContext context, CancellationToken ct) 
 
     if (validationError is not null)
     {
-        await log.WarnAsync(requestId, $"Validation failed: {validationError}");
+        await log.WarnAsync(requestId,
+            $"Validation failed: {validationError} To={Join(to)} From={req.From ?? ""} Subject={req.Subject ?? ""} App={req.AppName ?? ""} Client={context.Connection.RemoteIpAddress}");
         return Results.Json(new ApiError(false, requestId, validationError), statusCode: 400);
     }
 
